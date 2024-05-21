@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 import os
 
 # Rota da homepage do site
-@app.route("/home", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def homepage():
     formlogin = FormLogin()
     # Procura um usuário no banco de dados
