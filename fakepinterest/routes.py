@@ -18,7 +18,8 @@ def homepage():
     if formlogin.validate_on_submit():
         usuario = Usuario.query.filter_by(email=formlogin.email.data).first()
         # Caso um usuário for encontrado e a senha estiver correta
-        if usuario and bcrypt.check_password_hash(usuario.senha, formlogin.senha.data):
+        # if usuario and bcrypt.check_password_hash(usuario.senha, formlogin.senha.data): para bd local
+        if usuario and bcrypt.check_password_hash(usuario.senha.encode("utf-8"), formlogin.senha.data):
             # Realiza o login
             login_user(usuario)
             return redirect(url_for("perfil", id_usuario=usuario.id))
@@ -31,7 +32,8 @@ def criarconta():
     # Funciona apenas se o usuário apertar no botão enviar e o formulário estiver preenchido e vfor válido
     if form_criar_conta.validate_on_submit():
         # Criptografa a senha
-        senha = bcrypt.generate_password_hash(form_criar_conta.senha.data)
+        # senha = bcrypt.generate_password_hash(form_criar_conta.senha.data) senha bd local
+        senha = bcrypt.generate_password_hash(form_criar_conta.senha.data).decode("utf-8")
         # Cria um usuario
         usuario = Usuario(username=form_criar_conta.username.data, 
                           senha=senha, 
